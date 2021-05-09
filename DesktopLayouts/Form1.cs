@@ -66,13 +66,12 @@ namespace DesktopLayouts
 				isSmartResizeKeyDown = isSmartResizeKeyPressing;
 			}
 
-			var cursorPosition = Cursor.Position;
-
 			if (isSmartResizeKeyDown)
 			{
 				var windowUnderCursor = Window.GetWindowUnderCursor();
 				windowUnderCursor.GetWindowPosition(out var windowPosition);
 
+				var cursorPosition = Cursor.Position;
 				var localCursorPosition = cursorPosition - new Size(windowPosition.X, windowPosition.Y);
 
 				var ratioX = (float)localCursorPosition.X / windowPosition.Width;
@@ -90,9 +89,11 @@ namespace DesktopLayouts
 
 			if (isSmartResizeKeyPressing)
 			{
+				var cursorPosition = Cursor.Position;
 				var delta = new Point(
 					cursorPosition.X - PreviousCursorPosition.X,
 					cursorPosition.Y - PreviousCursorPosition.Y);
+				PreviousCursorPosition = cursorPosition;
 
 				if (delta.X != 0 || delta.Y != 0)
 				{
@@ -158,8 +159,6 @@ namespace DesktopLayouts
 					InitialWindow.SetWindowPosition(windowPosition);
 				}
 			}
-
-			PreviousCursorPosition = cursorPosition;
 		}
 
 		#region Debug
