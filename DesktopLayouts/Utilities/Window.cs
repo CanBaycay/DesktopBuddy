@@ -1,25 +1,9 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DesktopLayouts.Utilities
 {
-
-	internal class WindowApi
-	{
-		[DllImport("user32.dll")]
-		public static extern IntPtr WindowFromPoint(Point p);
-
-		[DllImport("user32.dll", SetLastError=true, CharSet=CharSet.Auto)]
-		public static extern int GetWindowTextLength(IntPtr hWnd);
-
-		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, [Out] StringBuilder lParam);
-	}
 
 	public struct Window
 	{
@@ -42,7 +26,7 @@ namespace DesktopLayouts.Utilities
 
 		public static Window GetWindowAt(Point position)
 		{
-			var handler = WindowApi.WindowFromPoint(position);
+			var handler = API.WindowFromPoint(position);
 			// TODO: Error handling.
 			return new Window(handler);
 		}
@@ -59,18 +43,18 @@ namespace DesktopLayouts.Utilities
 		public string GetTitle()
 		{
 			// Allocate correct string length first
-			int length = WindowApi.GetWindowTextLength(hWnd);
+			int length = API.GetWindowTextLength(hWnd);
 			var sb = new StringBuilder(length + 1);
-			WindowApi.GetWindowText(hWnd, sb, sb.Capacity);
+			API.GetWindowText(hWnd, sb, sb.Capacity);
 			return sb.ToString();
 		}
 
 		public string GetTitleRaw()
 		{
 			// Allocate correct string length first
-			int length = (int)WindowApi.SendMessage(hWnd, (uint)WM.GETTEXTLENGTH, IntPtr.Zero, null);
+			int length = (int)API.SendMessage(hWnd, (uint)WM.GETTEXTLENGTH, IntPtr.Zero, null);
 			var sb = new StringBuilder(length + 1);
-			WindowApi.SendMessage(hWnd, (uint)WM.GETTEXT, (IntPtr)sb.Capacity, sb);
+			API.SendMessage(hWnd, (uint)WM.GETTEXT, (IntPtr)sb.Capacity, sb);
 			return sb.ToString();
 		}
 
