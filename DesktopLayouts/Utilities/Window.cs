@@ -88,8 +88,10 @@ namespace DesktopLayouts.Utilities
 			return API.SetWindowPos(hWnd, 0,
 			                        rectangle.X, rectangle.Y,
 			                        rectangle.Width, rectangle.Height,
-			                        API.SWP_ASYNCWINDOWPOS | API.SWP_SHOWWINDOW |
-			                        API.SWP_NOACTIVATE | API.SWP_NOOWNERZORDER) != 0;
+			                        // API.SWP_ASYNCWINDOWPOS |
+			                        API.SWP_SHOWWINDOW |
+			                        API.SWP_NOACTIVATE |
+			                        API.SWP_NOOWNERZORDER) != 0;
 		}
 
 		#endregion
