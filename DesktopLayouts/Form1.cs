@@ -27,13 +27,17 @@ namespace DesktopLayouts
 			var windowUnderCursor = Window.GetWindowUnderCursor();
 			windowUnderCursor.GetTitle(out var title);
 			windowUnderCursor.GetWindowPosition(out var position);
+			var keyState = Keyboard.GetKeyState(Keys.LWin) &&
+			               Keyboard.GetKeyState(Keys.LControlKey);
+
 
 			// WM_ENTERSIZEMOVE
 
 
 			var text = cursorPosition.ToString() + "\n" +
 			           title + "\n" +
-			           position;
+			           position + "\n" +
+			           keyState;
 
 			// Console.WriteLine(text);
 
