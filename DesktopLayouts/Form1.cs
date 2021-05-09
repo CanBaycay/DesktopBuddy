@@ -14,6 +14,21 @@ using Cursor = System.Windows.Forms.Cursor;
 namespace DesktopLayouts
 {
 
+	public enum CursorWindowLocation
+	{
+		TopLeft = 0,
+		Top = 1,
+		TopRight = 2,
+
+		Left = 3,
+		Center = 4,
+		Right = 5,
+
+		BottomLeft = 6,
+		Bottom = 7,
+		BottomRight = 8,
+	}
+
 	public partial class Form1 : Form
 	{
 		public Form1()
@@ -30,11 +45,25 @@ namespace DesktopLayouts
 			var keyState = Keyboard.GetKeyState(Keys.LWin) &&
 			               Keyboard.GetKeyState(Keys.LControlKey);
 
+			var localCursorPosition = cursorPosition - new Size(position.X, position.Y);
+
+			var ratioX = (float)localCursorPosition.X / position.Width;
+			var ratioY = (float)localCursorPosition.Y / position.Height;
+
+			var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
+			var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
+			var index = y * 3 + x;
+			var cursorWindowLocation = (CursorWindowLocation)index;
+
 
 			// WM_ENTERSIZEMOVE
 
 
-			var text = cursorPosition.ToString() + "\n" +
+			var text = cursorPosition + "\n" +
+			           localCursorPosition + "\n" +
+			           "X: " + ratioX + "\n" +
+			           "Y: " + ratioY + "\n" +
+			           cursorWindowLocation + "\n" +
 			           title + "\n" +
 			           position + "\n" +
 			           keyState;
