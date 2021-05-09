@@ -25,11 +25,15 @@ namespace DesktopLayouts
 		{
 			var cursorPosition = Cursor.Position;
 			var windowUnderCursor = Window.GetWindowUnderCursor();
-			var title = windowUnderCursor.GetTitle();
+			windowUnderCursor.GetTitle(out var title);
+			windowUnderCursor.GetWindowPosition(out var position);
+
+			// WM_ENTERSIZEMOVE
 
 
-
-			var text = cursorPosition.ToString() + "\n" + title;
+			var text = cursorPosition.ToString() + "\n" +
+			           title + "\n" +
+			           position;
 
 			// Console.WriteLine(text);
 

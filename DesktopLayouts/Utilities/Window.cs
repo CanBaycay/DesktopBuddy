@@ -28,7 +28,11 @@ namespace DesktopLayouts.Utilities
 		{
 			var handler = API.WindowFromPoint(position);
 			// TODO: Error handling.
-			return new Window(handler);
+
+			var parentWindow = API.GetAncestor(handler, API.GetAncestorFlags.GetRoot);
+			// TODO: Error handling.
+
+			return new Window(parentWindow);
 		}
 
 		public static Window GetWindowUnderCursor()
@@ -40,22 +44,43 @@ namespace DesktopLayouts.Utilities
 
 		#region Title
 
-		public string GetTitle()
+		public bool GetTitle(out string title)
 		{
-			// Allocate correct string length first
-			int length = API.GetWindowTextLength(hWnd);
-			var sb = new StringBuilder(length + 1);
-			API.GetWindowText(hWnd, sb, sb.Capacity);
-			return sb.ToString();
+			var length = API.GetWindowTextLength(hWnd);
+			var stringBuilder = new StringBuilder(length + 1);
+			if (API.GetWindowText(hWnd, stringBuilder, stringBuilder.Capacity) != 0)
+			{
+				title = stringBuilder.ToString();
+				return true;
+			}
+			title = default;
+			return false;
 		}
 
-		public string GetTitleRaw()
+		// public string GetTitleRaw()
+		// {
+		// 	var length = (int)API.SendMessage(hWnd, (uint)WM.GETTEXTLENGTH, IntPtr.Zero, null);
+		// 	var stringBuilder = new StringBuilder(length + 1);
+		// 	API.SendMessage(hWnd, (uint)WM.GETTEXT, (IntPtr)stringBuilder.Capacity, stringBuilder);
+		// 	return stringBuilder.ToString();
+		// }
+
+		#endregion
+
+		#region Get/Set Window Pos
+
+		public bool GetWindowPosition(out Rectangle rectangle)
 		{
-			// Allocate correct string length first
-			int length = (int)API.SendMessage(hWnd, (uint)WM.GETTEXTLENGTH, IntPtr.Zero, null);
-			var sb = new StringBuilder(length + 1);
-			API.SendMessage(hWnd, (uint)WM.GETTEXT, (IntPtr)sb.Capacity, sb);
-			return sb.ToString();
+			if (API.GetWindowRect(hWnd, out var rect))
+			{
+				rectangle = new Rectangle(rect.Left,
+				                          rect.Top,
+				                          rect.Right - rect.Left + 1,
+				                          rect.Bottom - rect.Top + 1);
+				return true;
+			}
+			rectangle = default;
+			return false;
 		}
 
 		#endregion
