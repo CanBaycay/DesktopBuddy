@@ -36,7 +36,7 @@ namespace DesktopLayouts
 
 		#region Key Press
 
-		public bool IsPressingKey
+		public bool IsSmartResizeKeyPressing
 		{
 			get
 			{
@@ -55,20 +55,20 @@ namespace DesktopLayouts
 
 		private void TestTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			var isPressingKey = IsPressingKey;
+			var isSmartResizeKeyPressing = IsSmartResizeKeyPressing;
 
-			var isKeyDown = false;
+			var isSmartResizeKeyDown = false;
 
-			if (PreviousKeyState != isPressingKey)
+			if (PreviousKeyState != isSmartResizeKeyPressing)
 			{
-				PreviousKeyState = isPressingKey;
+				PreviousKeyState = isSmartResizeKeyPressing;
 
-				isKeyDown = isPressingKey;
+				isSmartResizeKeyDown = isSmartResizeKeyPressing;
 			}
 
 			var cursorPosition = Cursor.Position;
 
-			if (isKeyDown)
+			if (isSmartResizeKeyDown)
 			{
 				var windowUnderCursor = Window.GetWindowUnderCursor();
 				windowUnderCursor.GetWindowPosition(out var windowPosition);
@@ -88,67 +88,67 @@ namespace DesktopLayouts
 				InitialWindow = windowUnderCursor;
 			}
 
-			if (isPressingKey)
+			if (isSmartResizeKeyPressing)
 			{
-				var diff = new Point(
+				var delta = new Point(
 					cursorPosition.X - PreviousCursorPosition.X,
 					cursorPosition.Y - PreviousCursorPosition.Y);
 
-				if (diff.X != 0 || diff.Y != 0)
+				if (delta.X != 0 || delta.Y != 0)
 				{
 					InitialWindow.GetWindowPosition(out var windowPosition);
 
 					switch (InitialWindowLocation)
 					{
 						case CursorWindowLocation.TopLeft:
-							windowPosition.X += diff.X;
-							windowPosition.Width -= diff.X;
+							windowPosition.X += delta.X;
+							windowPosition.Width -= delta.X;
 
-							windowPosition.Y += diff.Y;
-							windowPosition.Height -= diff.Y;
+							windowPosition.Y += delta.Y;
+							windowPosition.Height -= delta.Y;
 							break;
 
 						case CursorWindowLocation.Top:
-							windowPosition.Y += diff.Y;
-							windowPosition.Height -= diff.Y;
+							windowPosition.Y += delta.Y;
+							windowPosition.Height -= delta.Y;
 							break;
 
 						case CursorWindowLocation.TopRight:
-							windowPosition.Width += diff.X;
+							windowPosition.Width += delta.X;
 
-							windowPosition.Y += diff.Y;
-							windowPosition.Height -= diff.Y;
+							windowPosition.Y += delta.Y;
+							windowPosition.Height -= delta.Y;
 							break;
 
 						case CursorWindowLocation.Left:
-							windowPosition.X += diff.X;
-							windowPosition.Width -= diff.X;
+							windowPosition.X += delta.X;
+							windowPosition.Width -= delta.X;
 							break;
 
 						case CursorWindowLocation.Center:
-							windowPosition.X += diff.X;
-							windowPosition.Y += diff.Y;
+							windowPosition.X += delta.X;
+							windowPosition.Y += delta.Y;
 							break;
 
 						case CursorWindowLocation.Right:
-							windowPosition.Width += diff.X;
+							windowPosition.Width += delta.X;
 							break;
 
 						case CursorWindowLocation.BottomLeft:
-							windowPosition.X += diff.X;
-							windowPosition.Width -= diff.X;
+							windowPosition.X += delta.X;
+							windowPosition.Width -= delta.X;
 
-							windowPosition.Height += diff.Y;
+							windowPosition.Height += delta.Y;
 							break;
 
 						case CursorWindowLocation.Bottom:
-							windowPosition.Height += diff.Y;
+							windowPosition.Height += delta.Y;
 							break;
 
 						case CursorWindowLocation.BottomRight:
-							windowPosition.Width += diff.X;
+							windowPosition.Width += delta.X;
 
-							windowPosition.Height += diff.Y;
+							windowPosition.Height += delta.Y;
 							break;
 
 						default:
