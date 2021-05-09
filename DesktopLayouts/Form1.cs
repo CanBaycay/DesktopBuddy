@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using DesktopLayouts.Utilities;
@@ -40,39 +34,61 @@ namespace DesktopLayouts
 
 		#endregion
 
+		#region Key Press
+
+		public bool IsPressingKey
+		{
+			get
+			{
+				return Keyboard.GetKeyState(Keys.LWin) &&
+				       Keyboard.GetKeyState(Keys.LControlKey);
+			}
+		}
+
 		private bool PreviousKeyState;
+
+		#endregion
+
 		private Point PreviousCursorPosition;
 		private CursorWindowLocation InitialWindowLocation;
 		private Window InitialWindow;
 
 		private void TestTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			var cursorPosition = Cursor.Position;
-			var windowUnderCursor = Window.GetWindowUnderCursor();
-			windowUnderCursor.GetTitle(out var title);
-			windowUnderCursor.GetWindowPosition(out var windowPosition);
-			var keyState = Keyboard.GetKeyState(Keys.LWin) &&
-			               Keyboard.GetKeyState(Keys.LControlKey);
+			var isPressingKey = IsPressingKey;
 
-			var localCursorPosition = cursorPosition - new Size(windowPosition.X, windowPosition.Y);
+			var isKeyDown = false;
 
-			var ratioX = (float)localCursorPosition.X / windowPosition.Width;
-			var ratioY = (float)localCursorPosition.Y / windowPosition.Height;
-
-			var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
-			var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
-			var index = y * 3 + x;
-			var cursorWindowLocation = (CursorWindowLocation)index;
-
-			if (PreviousKeyState != keyState)
+			if (PreviousKeyState != isPressingKey)
 			{
-				PreviousKeyState = keyState;
+				PreviousKeyState = isPressingKey;
+
+				isKeyDown = isPressingKey;
+			}
+
+			var cursorPosition = Cursor.Position;
+
+			if (isKeyDown)
+			{
+				var windowUnderCursor = Window.GetWindowUnderCursor();
+				windowUnderCursor.GetWindowPosition(out var windowPosition);
+
+				var localCursorPosition = cursorPosition - new Size(windowPosition.X, windowPosition.Y);
+
+				var ratioX = (float)localCursorPosition.X / windowPosition.Width;
+				var ratioY = (float)localCursorPosition.Y / windowPosition.Height;
+
+				var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
+				var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
+				var index = y * 3 + x;
+				var cursorWindowLocation = (CursorWindowLocation)index;
+
 				PreviousCursorPosition = cursorPosition;
 				InitialWindowLocation = cursorWindowLocation;
 				InitialWindow = windowUnderCursor;
 			}
 
-			if (keyState)
+			if (isPressingKey)
 			{
 				var diff = new Point(
 					cursorPosition.X - PreviousCursorPosition.X,
@@ -80,6 +96,8 @@ namespace DesktopLayouts
 
 				if (diff.X != 0 || diff.Y != 0)
 				{
+					InitialWindow.GetWindowPosition(out var windowPosition);
+
 					switch (InitialWindowLocation)
 					{
 						case CursorWindowLocation.TopLeft:
@@ -142,25 +160,29 @@ namespace DesktopLayouts
 			}
 
 			PreviousCursorPosition = cursorPosition;
-
-			var text = "CursorPosition : " + cursorPosition + "\n" +
-			           "LocalCursorPosition : " + localCursorPosition + "\n" +
-			           "X: " + ratioX + "\n" +
-			           "Y: " + ratioY + "\n" +
-			           cursorWindowLocation + "\n" +
-			           title + "\n" +
-			           windowPosition + "\n" +
-			           keyState + "\n";
-
-			if (keyState)
-			{
-				text += "\n" + "Applying " + InitialWindowLocation;
-			}
-
-			// Console.WriteLine(text);
-
-			label1.Text = text;
 		}
+
+		#region Debug
+
+		// windowUnderCursor.GetTitle(out var title);
+
+		// var text = "CursorPosition : " + cursorPosition + "\n" +
+		//            "LocalCursorPosition : " + localCursorPosition + "\n" +
+		//            "X: " + ratioX + "\n" +
+		//            "Y: " + ratioY + "\n" +
+		//            cursorWindowLocation + "\n" +
+		//            title + "\n" +
+		//            windowPosition + "\n" +
+		//            keyState + "\n";
+		//
+		// if (keyState)
+		// {
+		// 	text += "\n" + "Applying " + InitialWindowLocation;
+		// }
+
+		// label1.Text = text;
+
+		#endregion
 	}
 
 }
