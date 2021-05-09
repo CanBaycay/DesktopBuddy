@@ -75,12 +75,21 @@ namespace DesktopLayouts.Utilities
 			{
 				rectangle = new Rectangle(rect.Left,
 				                          rect.Top,
-				                          rect.Right - rect.Left + 1,
-				                          rect.Bottom - rect.Top + 1);
+				                          rect.Right - rect.Left,
+				                          rect.Bottom - rect.Top);
 				return true;
 			}
 			rectangle = default;
 			return false;
+		}
+
+		public bool SetWindowPosition(Rectangle rectangle)
+		{
+			return API.SetWindowPos(hWnd, 0,
+			                        rectangle.X, rectangle.Y,
+			                        rectangle.Width, rectangle.Height,
+			                        API.SWP_ASYNCWINDOWPOS | API.SWP_SHOWWINDOW |
+			                        API.SWP_NOACTIVATE | API.SWP_NOOWNERZORDER) != 0;
 		}
 
 		#endregion

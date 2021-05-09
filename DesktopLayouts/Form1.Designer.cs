@@ -37,6 +37,7 @@
 			// TestTimer
 			// 
 			this.TestTimer.Enabled = true;
+			this.TestTimer.Interval = 10D;
 			this.TestTimer.SynchronizingObject = this;
 			this.TestTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.TestTimer_Elapsed);
 			// 

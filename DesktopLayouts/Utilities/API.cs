@@ -154,7 +154,7 @@ namespace DesktopLayouts.Utilities
 		}
 
 		[DllImport("user32.dll", EntryPoint = "SetWindowPos")]
-		public static extern IntPtr SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, int wFlags);
+		public static extern int SetWindowPos(IntPtr hWnd, int hWndInsertAfter, int x, int Y, int cx, int cy, uint wFlags);
 
 		#endregion
 	}
