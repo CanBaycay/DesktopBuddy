@@ -95,8 +95,6 @@ namespace DesktopLayouts
 		#region Loop
 
 		private Point PreviousCursorPosition;
-		private GrabLocation GrabLocation;
-		private Window GrabbedWindow;
 
 		private void Loop()
 		{
@@ -111,23 +109,9 @@ namespace DesktopLayouts
 			{
 				SetToFrequentUpdating();
 
-				var windowUnderCursor = Window.GetWindowUnderCursor();
-				windowUnderCursor.GetWindowPosition(out var windowPosition);
-
 				var cursorPosition = Cursor.Position;
-				var localCursorPosition = cursorPosition - new Size(windowPosition.X, windowPosition.Y);
-
-				var ratioX = (float)localCursorPosition.X / windowPosition.Width;
-				var ratioY = (float)localCursorPosition.Y / windowPosition.Height;
-
-				var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
-				var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
-				var index = y * 3 + x;
-				var cursorWindowLocation = (GrabLocation)index;
-
+				DetectGrabbingDetails(cursorPosition);
 				PreviousCursorPosition = cursorPosition;
-				GrabLocation = cursorWindowLocation;
-				GrabbedWindow = windowUnderCursor;
 			}
 
 			if (isSmartResizeKeyUp)
@@ -148,6 +132,32 @@ namespace DesktopLayouts
 					ApplySmartResize(GrabbedWindow, GrabLocation, resizeDelta);
 				}
 			}
+		}
+
+		#endregion
+
+		#region Grab Window
+
+		private GrabLocation GrabLocation;
+		private Window GrabbedWindow;
+
+		private void DetectGrabbingDetails(Point cursorPosition)
+		{
+			var windowUnderCursor = Window.GetWindowUnderCursor();
+			windowUnderCursor.GetWindowPosition(out var windowPosition);
+
+			var localCursorPosition = cursorPosition - new Size(windowPosition.X, windowPosition.Y);
+
+			var ratioX = (float)localCursorPosition.X / windowPosition.Width;
+			var ratioY = (float)localCursorPosition.Y / windowPosition.Height;
+
+			var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
+			var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
+			var index = y * 3 + x;
+			var cursorWindowLocation = (GrabLocation)index;
+
+			GrabLocation = cursorWindowLocation;
+			GrabbedWindow = windowUnderCursor;
 		}
 
 		#endregion
