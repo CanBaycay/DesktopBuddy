@@ -49,6 +49,28 @@ namespace DesktopLayouts
 
 		private bool PreviousKeyState;
 
+		private bool CalculateKeyPress(out bool isSmartResizeKeyPressing,
+		                               out bool isSmartResizeKeyDown,
+		                               out bool isSmartResizeKeyUp)
+		{
+			isSmartResizeKeyPressing = IsSmartResizeKeyPressing;
+
+			if (PreviousKeyState != isSmartResizeKeyPressing)
+			{
+				PreviousKeyState = isSmartResizeKeyPressing;
+
+				isSmartResizeKeyDown = isSmartResizeKeyPressing;
+				isSmartResizeKeyUp = !isSmartResizeKeyPressing;
+				return true;
+			}
+			else
+			{
+				isSmartResizeKeyDown = false;
+				isSmartResizeKeyUp = false;
+				return isSmartResizeKeyPressing;
+			}
+		}
+
 		#endregion
 
 		#region Loop Frequency
@@ -71,17 +93,11 @@ namespace DesktopLayouts
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			var isSmartResizeKeyPressing = IsSmartResizeKeyPressing;
-
-			var isSmartResizeKeyDown = false;
-			var isSmartResizeKeyUp = false;
-
-			if (PreviousKeyState != isSmartResizeKeyPressing)
+			if (!CalculateKeyPress(out var isSmartResizeKeyPressing,
+			                       out var isSmartResizeKeyDown,
+			                       out var isSmartResizeKeyUp))
 			{
-				PreviousKeyState = isSmartResizeKeyPressing;
-
-				isSmartResizeKeyDown = isSmartResizeKeyPressing;
-				isSmartResizeKeyUp = !isSmartResizeKeyPressing;
+				return;
 			}
 
 			if (isSmartResizeKeyDown)
