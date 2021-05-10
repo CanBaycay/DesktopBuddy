@@ -73,7 +73,12 @@ namespace DesktopLayouts
 
 		#endregion
 
-		#region Loop Frequency
+		#region Loop Trigger
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			Loop();
+		}
 
 		private void SetToFrequentUpdating()
 		{
@@ -87,11 +92,13 @@ namespace DesktopLayouts
 
 		#endregion
 
+		#region Loop
+
 		private Point PreviousCursorPosition;
 		private CursorWindowLocation InitialWindowLocation;
 		private Window InitialWindow;
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		private void Loop()
 		{
 			if (!CalculateKeyPress(out var isSmartResizeKeyPressing,
 			                       out var isSmartResizeKeyDown,
@@ -142,6 +149,8 @@ namespace DesktopLayouts
 				}
 			}
 		}
+
+		#endregion
 
 		#region Smart Resize
 
