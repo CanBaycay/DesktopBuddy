@@ -55,12 +55,12 @@ namespace DesktopLayouts
 
 		private void SetToFrequentUpdating()
 		{
-			TestTimer.Interval = 1000 / 60;
+			Timer.Interval = 1000 / 60;
 		}
 
 		private void SetToInfrequentUpdating()
 		{
-			TestTimer.Interval = 1000 / 10;
+			Timer.Interval = 1000 / 10;
 		}
 
 		#endregion
@@ -69,7 +69,7 @@ namespace DesktopLayouts
 		private CursorWindowLocation InitialWindowLocation;
 		private Window InitialWindow;
 
-		private void TestTimer_Elapsed(object sender, ElapsedEventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			var isSmartResizeKeyPressing = IsSmartResizeKeyPressing;
 

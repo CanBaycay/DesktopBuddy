@@ -29,41 +29,40 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.TestTimer = new System.Timers.Timer();
+			this.Timer = new System.Timers.Timer();
 			this.label1 = new System.Windows.Forms.Label();
-			((System.ComponentModel.ISupportInitialize)(this.TestTimer)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.Timer)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// TestTimer
-			// 
-			this.TestTimer.Enabled = true;
-			this.TestTimer.Interval = 10D;
-			this.TestTimer.SynchronizingObject = this;
-			this.TestTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.TestTimer_Elapsed);
-			// 
+			//
+			// Timer
+			//
+			this.Timer.Enabled = true;
+			this.Timer.SynchronizingObject = this;
+			this.Timer.Elapsed += new System.Timers.ElapsedEventHandler(this.Timer_Elapsed);
+			//
 			// label1
-			// 
+			//
 			this.label1.Location = new System.Drawing.Point(22, 16);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(712, 354);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "label1";
-			// 
+			//
 			// Form1
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.label1);
 			this.Name = "Form1";
 			this.Text = "Form1";
-			((System.ComponentModel.ISupportInitialize)(this.TestTimer)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.Timer)).EndInit();
 			this.ResumeLayout(false);
 		}
 
 		private System.Windows.Forms.Label label1;
 
-		private System.Timers.Timer TestTimer;
+		private System.Timers.Timer Timer;
 
 		#endregion
 	}
