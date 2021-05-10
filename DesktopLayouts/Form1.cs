@@ -115,76 +115,85 @@ namespace DesktopLayouts
 			if (isSmartResizeKeyPressing)
 			{
 				var cursorPosition = Cursor.Position;
-				var delta = new Point(
+				var resizeDelta = new Point(
 					cursorPosition.X - PreviousCursorPosition.X,
 					cursorPosition.Y - PreviousCursorPosition.Y);
 				PreviousCursorPosition = cursorPosition;
 
-				if (delta.X != 0 || delta.Y != 0)
+				if (!resizeDelta.IsEmpty)
 				{
-					InitialWindow.GetWindowPosition(out var windowPosition);
-
-					switch (InitialWindowLocation)
-					{
-						case CursorWindowLocation.TopLeft:
-							windowPosition.X += delta.X;
-							windowPosition.Width -= delta.X;
-
-							windowPosition.Y += delta.Y;
-							windowPosition.Height -= delta.Y;
-							break;
-
-						case CursorWindowLocation.Top:
-							windowPosition.Y += delta.Y;
-							windowPosition.Height -= delta.Y;
-							break;
-
-						case CursorWindowLocation.TopRight:
-							windowPosition.Width += delta.X;
-
-							windowPosition.Y += delta.Y;
-							windowPosition.Height -= delta.Y;
-							break;
-
-						case CursorWindowLocation.Left:
-							windowPosition.X += delta.X;
-							windowPosition.Width -= delta.X;
-							break;
-
-						case CursorWindowLocation.Center:
-							windowPosition.X += delta.X;
-							windowPosition.Y += delta.Y;
-							break;
-
-						case CursorWindowLocation.Right:
-							windowPosition.Width += delta.X;
-							break;
-
-						case CursorWindowLocation.BottomLeft:
-							windowPosition.X += delta.X;
-							windowPosition.Width -= delta.X;
-
-							windowPosition.Height += delta.Y;
-							break;
-
-						case CursorWindowLocation.Bottom:
-							windowPosition.Height += delta.Y;
-							break;
-
-						case CursorWindowLocation.BottomRight:
-							windowPosition.Width += delta.X;
-
-							windowPosition.Height += delta.Y;
-							break;
-
-						default:
-							throw new ArgumentOutOfRangeException();
-					}
-
-					InitialWindow.SetWindowPosition(windowPosition);
+					ApplySmartResize(InitialWindow, InitialWindowLocation, resizeDelta);
 				}
 			}
 		}
+
+		#region Smart Resize
+
+		private static void ApplySmartResize(Window window, CursorWindowLocation grabLocation, Point resizeDelta)
+		{
+			window.GetWindowPosition(out var windowPosition);
+
+			switch (grabLocation)
+			{
+				case CursorWindowLocation.TopLeft:
+					windowPosition.X += resizeDelta.X;
+					windowPosition.Width -= resizeDelta.X;
+
+					windowPosition.Y += resizeDelta.Y;
+					windowPosition.Height -= resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.Top:
+					windowPosition.Y += resizeDelta.Y;
+					windowPosition.Height -= resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.TopRight:
+					windowPosition.Width += resizeDelta.X;
+
+					windowPosition.Y += resizeDelta.Y;
+					windowPosition.Height -= resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.Left:
+					windowPosition.X += resizeDelta.X;
+					windowPosition.Width -= resizeDelta.X;
+					break;
+
+				case CursorWindowLocation.Center:
+					windowPosition.X += resizeDelta.X;
+					windowPosition.Y += resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.Right:
+					windowPosition.Width += resizeDelta.X;
+					break;
+
+				case CursorWindowLocation.BottomLeft:
+					windowPosition.X += resizeDelta.X;
+					windowPosition.Width -= resizeDelta.X;
+
+					windowPosition.Height += resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.Bottom:
+					windowPosition.Height += resizeDelta.Y;
+					break;
+
+				case CursorWindowLocation.BottomRight:
+					windowPosition.Width += resizeDelta.X;
+
+					windowPosition.Height += resizeDelta.Y;
+					break;
+
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+
+			window.SetWindowPosition(windowPosition);
+		}
+
+		#endregion
 
 		#region Debug
 
