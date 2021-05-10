@@ -8,7 +8,7 @@ using Cursor = System.Windows.Forms.Cursor;
 namespace DesktopLayouts
 {
 
-	public enum CursorWindowLocation
+	public enum GrabLocation
 	{
 		TopLeft = 0,
 		Top = 1,
@@ -95,8 +95,8 @@ namespace DesktopLayouts
 		#region Loop
 
 		private Point PreviousCursorPosition;
-		private CursorWindowLocation InitialWindowLocation;
-		private Window InitialWindow;
+		private GrabLocation GrabLocation;
+		private Window GrabbedWindow;
 
 		private void Loop()
 		{
@@ -123,11 +123,11 @@ namespace DesktopLayouts
 				var x = ratioX < 0.25f ? 0 : ratioX < 0.75f ? 1 : 2;
 				var y = ratioY < 0.25f ? 0 : ratioY < 0.75f ? 1 : 2;
 				var index = y * 3 + x;
-				var cursorWindowLocation = (CursorWindowLocation)index;
+				var cursorWindowLocation = (GrabLocation)index;
 
 				PreviousCursorPosition = cursorPosition;
-				InitialWindowLocation = cursorWindowLocation;
-				InitialWindow = windowUnderCursor;
+				GrabLocation = cursorWindowLocation;
+				GrabbedWindow = windowUnderCursor;
 			}
 
 			if (isSmartResizeKeyUp)
@@ -145,7 +145,7 @@ namespace DesktopLayouts
 
 				if (!resizeDelta.IsEmpty)
 				{
-					ApplySmartResize(InitialWindow, InitialWindowLocation, resizeDelta);
+					ApplySmartResize(GrabbedWindow, GrabLocation, resizeDelta);
 				}
 			}
 		}
@@ -154,13 +154,13 @@ namespace DesktopLayouts
 
 		#region Smart Resize
 
-		private static void ApplySmartResize(Window window, CursorWindowLocation grabLocation, Point resizeDelta)
+		private static void ApplySmartResize(Window window, GrabLocation grabLocation, Point resizeDelta)
 		{
 			window.GetWindowPosition(out var windowPosition);
 
 			switch (grabLocation)
 			{
-				case CursorWindowLocation.TopLeft:
+				case GrabLocation.TopLeft:
 					windowPosition.X += resizeDelta.X;
 					windowPosition.Width -= resizeDelta.X;
 
@@ -168,44 +168,44 @@ namespace DesktopLayouts
 					windowPosition.Height -= resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.Top:
+				case GrabLocation.Top:
 					windowPosition.Y += resizeDelta.Y;
 					windowPosition.Height -= resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.TopRight:
+				case GrabLocation.TopRight:
 					windowPosition.Width += resizeDelta.X;
 
 					windowPosition.Y += resizeDelta.Y;
 					windowPosition.Height -= resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.Left:
+				case GrabLocation.Left:
 					windowPosition.X += resizeDelta.X;
 					windowPosition.Width -= resizeDelta.X;
 					break;
 
-				case CursorWindowLocation.Center:
+				case GrabLocation.Center:
 					windowPosition.X += resizeDelta.X;
 					windowPosition.Y += resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.Right:
+				case GrabLocation.Right:
 					windowPosition.Width += resizeDelta.X;
 					break;
 
-				case CursorWindowLocation.BottomLeft:
+				case GrabLocation.BottomLeft:
 					windowPosition.X += resizeDelta.X;
 					windowPosition.Width -= resizeDelta.X;
 
 					windowPosition.Height += resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.Bottom:
+				case GrabLocation.Bottom:
 					windowPosition.Height += resizeDelta.Y;
 					break;
 
-				case CursorWindowLocation.BottomRight:
+				case GrabLocation.BottomRight:
 					windowPosition.Width += resizeDelta.X;
 
 					windowPosition.Height += resizeDelta.Y;
@@ -235,7 +235,7 @@ namespace DesktopLayouts
 		//
 		// if (keyState)
 		// {
-		// 	text += "\n" + "Applying " + InitialWindowLocation;
+		// 	text += "\n" + "Applying " + GrabLocation;
 		// }
 
 		// label1.Text = text;
