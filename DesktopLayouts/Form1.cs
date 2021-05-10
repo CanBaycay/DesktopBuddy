@@ -30,6 +30,8 @@ namespace DesktopLayouts
 		public Form1()
 		{
 			InitializeComponent();
+
+			SetToInfrequentUpdating();
 		}
 
 		#endregion
@@ -49,6 +51,20 @@ namespace DesktopLayouts
 
 		#endregion
 
+		#region Loop Frequency
+
+		private void SetToFrequentUpdating()
+		{
+			TestTimer.Interval = 1000 / 60;
+		}
+
+		private void SetToInfrequentUpdating()
+		{
+			TestTimer.Interval = 1000 / 10;
+		}
+
+		#endregion
+
 		private Point PreviousCursorPosition;
 		private CursorWindowLocation InitialWindowLocation;
 		private Window InitialWindow;
@@ -58,16 +74,20 @@ namespace DesktopLayouts
 			var isSmartResizeKeyPressing = IsSmartResizeKeyPressing;
 
 			var isSmartResizeKeyDown = false;
+			var isSmartResizeKeyUp = false;
 
 			if (PreviousKeyState != isSmartResizeKeyPressing)
 			{
 				PreviousKeyState = isSmartResizeKeyPressing;
 
 				isSmartResizeKeyDown = isSmartResizeKeyPressing;
+				isSmartResizeKeyUp = !isSmartResizeKeyPressing;
 			}
 
 			if (isSmartResizeKeyDown)
 			{
+				SetToFrequentUpdating();
+
 				var windowUnderCursor = Window.GetWindowUnderCursor();
 				windowUnderCursor.GetWindowPosition(out var windowPosition);
 
@@ -85,6 +105,11 @@ namespace DesktopLayouts
 				PreviousCursorPosition = cursorPosition;
 				InitialWindowLocation = cursorWindowLocation;
 				InitialWindow = windowUnderCursor;
+			}
+
+			if (isSmartResizeKeyUp)
+			{
+				SetToInfrequentUpdating();
 			}
 
 			if (isSmartResizeKeyPressing)
