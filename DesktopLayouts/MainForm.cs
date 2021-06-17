@@ -42,8 +42,23 @@ namespace DesktopLayouts
 		{
 			get
 			{
-				return Keyboard.GetKeyState(Keys.LWin) &&
-				       Keyboard.GetKeyState(Keys.LControlKey);
+				var isPressingLWin = Keyboard.GetKeyState(Keys.LWin);
+				// Key combo 1 - Left Control + Left Windows keys
+				if (isPressingLWin &&
+				    Keyboard.GetKeyState(Keys.LControlKey))
+				{
+					return true;
+				}
+				// Key combo 2 - Middle Mouse Button but without any modifier keys
+				if (!isPressingLWin &&
+				    !Keyboard.GetKeyState(Keys.LControlKey) &&
+				    !Keyboard.GetKeyState(Keys.LShiftKey) &&
+				    !Keyboard.GetKeyState(Keys.LMenu) &&
+				    Keyboard.GetKeyState(Keys.MButton))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
