@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
@@ -241,6 +242,19 @@ namespace DesktopLayouts
 			}
 
 			window.SetWindowPosition(windowPosition);
+		}
+
+		#endregion
+
+		#region Discord Process Priority Adjuster Tool
+
+		private void DiscordProcessPriorityAdjusterTimer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			var processes = Process.GetProcessesByName("Discord");
+			foreach (var process in processes)
+			{
+				process.PriorityClass = ProcessPriorityClass.High;
+			}
 		}
 
 		#endregion

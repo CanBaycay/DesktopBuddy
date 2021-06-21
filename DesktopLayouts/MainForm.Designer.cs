@@ -31,7 +31,9 @@
 		{
 			this.Timer = new System.Timers.Timer();
 			this.label1 = new System.Windows.Forms.Label();
+			this.DiscordProcessPriorityAdjusterTimer = new System.Timers.Timer();
 			((System.ComponentModel.ISupportInitialize)(this.Timer)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.DiscordProcessPriorityAdjusterTimer)).BeginInit();
 			this.SuspendLayout();
 			//
 			// Timer
@@ -48,17 +50,27 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "label1";
 			//
+			// DiscordProcessPriorityAdjusterTimer
+			//
+			this.DiscordProcessPriorityAdjusterTimer.Enabled = true;
+			this.DiscordProcessPriorityAdjusterTimer.Interval = 20000D;
+			this.DiscordProcessPriorityAdjusterTimer.SynchronizingObject = this;
+			this.DiscordProcessPriorityAdjusterTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.DiscordProcessPriorityAdjusterTimer_Elapsed);
+			//
 			// MainForm
 			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(320, 196);
 			this.Controls.Add(this.label1);
 			this.Name = "MainForm";
 			this.Text = "Desktop Layouts";
 			((System.ComponentModel.ISupportInitialize)(this.Timer)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.DiscordProcessPriorityAdjusterTimer)).EndInit();
 			this.ResumeLayout(false);
 		}
+
+		private System.Timers.Timer DiscordProcessPriorityAdjusterTimer;
 
 		private System.Windows.Forms.Label label1;
 
