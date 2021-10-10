@@ -38,6 +38,7 @@ namespace DesktopLayouts
 		public MainForm()
 		{
 			InitializeComponent();
+			WindowState = FormWindowState.Minimized;
 
 			SetToInfrequentUpdating();
 
