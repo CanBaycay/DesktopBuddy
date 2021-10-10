@@ -53,7 +53,7 @@ namespace DesktopLayouts.Utilities
 				title = stringBuilder.ToString();
 				return true;
 			}
-			title = default;
+			title = string.Empty;
 			return false;
 		}
 
@@ -79,7 +79,7 @@ namespace DesktopLayouts.Utilities
 				                          rect.Bottom - rect.Top);
 				return true;
 			}
-			rectangle = default;
+			rectangle = default(Rectangle);
 			return false;
 		}
 
