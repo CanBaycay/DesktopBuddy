@@ -66,7 +66,7 @@
 			this.ClientSize = new System.Drawing.Size(320, 196);
 			this.Controls.Add(this.LaunchAtStartupCheckbox);
 			this.Name = "MainForm";
-			this.Text = "Desktop Layouts";
+			this.Text = "Desktop Buddy";
 			((System.ComponentModel.ISupportInitialize)(this.Timer)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.DiscordProcessPriorityAdjusterTimer)).EndInit();
 			this.ResumeLayout(false);
