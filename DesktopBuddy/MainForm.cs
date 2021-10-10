@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
-using DesktopLayouts.Utilities;
+using DesktopBuddy.Utilities;
 using Microsoft.Win32;
 using Cursor = System.Windows.Forms.Cursor;
 
-namespace DesktopLayouts
+namespace DesktopBuddy
 {
 
 	public enum GrabLocation

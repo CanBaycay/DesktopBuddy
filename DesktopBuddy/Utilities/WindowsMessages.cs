@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DesktopLayouts.Utilities
+namespace DesktopBuddy.Utilities
 {
 
 	/// <summary>

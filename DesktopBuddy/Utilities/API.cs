@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DesktopLayouts.Utilities
+namespace DesktopBuddy.Utilities
 {
 
 	public static class API

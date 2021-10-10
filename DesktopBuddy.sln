@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopLayouts", "DesktopLayouts\DesktopLayouts.csproj", "{30413451-95D1-46F0-97DC-68F927318001}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopBuddy", "DesktopBuddy\DesktopBuddy.csproj", "{30413451-95D1-46F0-97DC-68F927318001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

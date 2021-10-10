@@ -1,4 +1,4 @@
-﻿namespace DesktopLayouts
+﻿namespace DesktopBuddy
 {
 
 	partial class MainForm

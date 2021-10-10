@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Text;
 
-namespace DesktopLayouts.Utilities
+namespace DesktopBuddy.Utilities
 {
 
 	public struct Window

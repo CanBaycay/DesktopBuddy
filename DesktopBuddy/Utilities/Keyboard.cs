@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace DesktopLayouts.Utilities
+namespace DesktopBuddy.Utilities
 {
 
 	public static class Keyboard
