@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
 using DesktopLayouts.Utilities;
+using Microsoft.Win32;
 using Cursor = System.Windows.Forms.Cursor;
 
 namespace DesktopLayouts
@@ -26,6 +27,12 @@ namespace DesktopLayouts
 
 	public partial class MainForm : Form
 	{
+		#region Configuration
+
+		public const string ApplicationNameAsKey = "DesktopBuddy";
+
+		#endregion
+
 		#region Initialization
 
 		public MainForm()
@@ -33,6 +40,8 @@ namespace DesktopLayouts
 			InitializeComponent();
 
 			SetToInfrequentUpdating();
+
+			LaunchAtStartupCheckbox.Checked = GetStartupRegistry();
 		}
 
 		#endregion
@@ -254,6 +263,42 @@ namespace DesktopLayouts
 			foreach (var process in processes)
 			{
 				process.PriorityClass = ProcessPriorityClass.High;
+			}
+		}
+
+		#endregion
+
+		#region Launch on Startup
+
+		private void LaunchAtStartupCheckbox_CheckedChanged(object sender, EventArgs e)
+		{
+			SetStartupRegistry(LaunchAtStartupCheckbox.Checked);
+		}
+
+		private bool GetStartupRegistry()
+		{
+			try
+			{
+				var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", false);
+				return !string.IsNullOrEmpty((string)key.GetValue(ApplicationNameAsKey));
+			}
+			catch (Exception e)
+			{
+				return false;
+			}
+		}
+
+		private void SetStartupRegistry(bool enable)
+		{
+			var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+			if (enable)
+			{
+				key.SetValue(ApplicationNameAsKey, Application.ExecutablePath);
+			}
+			else
+			{
+				key.DeleteValue(ApplicationNameAsKey, false);
 			}
 		}
 
