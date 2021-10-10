@@ -30,7 +30,6 @@
 		private void InitializeComponent()
 		{
 			this.Timer = new System.Timers.Timer();
-			this.label1 = new System.Windows.Forms.Label();
 			this.DiscordProcessPriorityAdjusterTimer = new System.Timers.Timer();
 			this.LaunchAtStartupCheckbox = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.Timer)).BeginInit();
@@ -42,15 +41,7 @@
 			this.Timer.Enabled = true;
 			this.Timer.SynchronizingObject = this;
 			this.Timer.Elapsed += new System.Timers.ElapsedEventHandler(this.Timer_Elapsed);
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(22, 16);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(712, 354);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "label1";
-			// 
+			//
 			// DiscordProcessPriorityAdjusterTimer
 			// 
 			this.DiscordProcessPriorityAdjusterTimer.Enabled = true;
@@ -74,7 +65,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(320, 196);
 			this.Controls.Add(this.LaunchAtStartupCheckbox);
-			this.Controls.Add(this.label1);
 			this.Name = "MainForm";
 			this.Text = "Desktop Layouts";
 			((System.ComponentModel.ISupportInitialize)(this.Timer)).EndInit();
@@ -85,8 +75,6 @@
 		private System.Windows.Forms.CheckBox LaunchAtStartupCheckbox;
 
 		private System.Timers.Timer DiscordProcessPriorityAdjusterTimer;
-
-		private System.Windows.Forms.Label label1;
 
 		private System.Timers.Timer Timer;
 
