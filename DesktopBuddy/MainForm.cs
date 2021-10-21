@@ -61,14 +61,14 @@ namespace DesktopBuddy
 					return true;
 				}
 				// Key combo 2 - Middle Mouse Button but without any modifier keys
-				if (!isPressingLWin &&
-				    !Keyboard.GetKeyState(Keys.LControlKey) &&
-				    !Keyboard.GetKeyState(Keys.LShiftKey) &&
-				    !Keyboard.GetKeyState(Keys.LMenu) &&
-				    Keyboard.GetKeyState(Keys.MButton))
-				{
-					return true;
-				}
+				// if (!isPressingLWin &&
+				//     !Keyboard.GetKeyState(Keys.LControlKey) &&
+				//     !Keyboard.GetKeyState(Keys.LShiftKey) &&
+				//     !Keyboard.GetKeyState(Keys.LMenu) &&
+				//     Keyboard.GetKeyState(Keys.MButton))
+				// {
+				// 	return true;
+				// }
 				return false;
 			}
 		}
